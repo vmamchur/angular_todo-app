@@ -1,13 +1,21 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+
+const todos = [
+  { id: 1, title: 'HTML + CSS', completed: true },
+  { id: 2, title: 'JS', completed: true },
+  { id: 3, title: 'Angular', completed: false },
+]
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet],
+  imports: [CommonModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-  title = 'angular_todo-app';
+  isEditing = false;
+  todos = todos;
 }
+  
