@@ -5,19 +5,29 @@
     <header class="todoapp__header">
       <button class="todoapp__toggle-all active"></button>
 
-      <form>
+      <form (ngSubmit)="addTodo()" [formGroup]="todoForm">
         <input
           type="text"
           class="todoapp__new-todo"
+          [style.backgroundColor]="title.errors && title.dirty ? '#f88' : ''"
           placeholder="What needs to be done?"
+          formControlName="title"
         />
       </form>
     </header>
 
     <section class="todoapp__main">
-      <div class="todo" [class.completed]="todo.completed" *ngFor="let todo of todos">
+      <div
+        class="todo" 
+        [class.completed]="todo.completed"
+        *ngFor="let todo of todos; let i = index"
+      >
         <label class="todo__status-label">
-          <input type="checkbox" class="todo__status" checked />
+          <input 
+            type="checkbox"
+            class="todo__status"
+            [(ngModel)]="todo.completed"
+          />
         </label>
 
         <form *ngIf="isEditing else title">
@@ -31,10 +41,10 @@
 
         <ng-template #title>
           <span class="todo__title">{{ todo.title }}</span>
-          <button class="todo__remove">x</button>
+          <button class="todo__remove" (click)="handleTodoDelete(i)">x</button>
         </ng-template>
         
-        <div class="modal overlay" [class.is-active]="true">
+        <div class="modal overlay" [class.is-active]="false">
           <div class="modal-background has-background-white-ter"></div>
           <div class="loader"></div>
         </div>
@@ -42,7 +52,7 @@
     </section>
 
     <footer class="todoapp__footer">
-      <span class="todo-count"> 3 items left </span>
+      <span class="todo-count"> {{ activeTodos.length }} items left </span>
 
       <nav class="filter">
         <a href="#/" class="filter__link selected"> All </a>
