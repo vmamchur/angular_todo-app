@@ -1,0 +1,33 @@
+<div class="todoapp">
+  <h1 class="todoapp__title">todos</h1>
+
+  <div class="todoapp__content">
+    <header class="todoapp__header">
+      <app-todo-form (add)="addTodo($event)"></app-todo-form>
+    </header>
+
+    <section class="todoapp__main">
+      <app-todo
+        *ngFor="
+          let todo of visibleTodos$ | async;
+          let i = index;
+          trackBy: trackById
+        "
+        [todo]="todo"
+        (delete)="handleTodoDelete(todo)"
+        (rename)="handleTodoRename(todo, $event)"
+        (toggle)="handleTodoToggle(todo)"
+      ></app-todo>
+    </section>
+
+    <footer class="todoapp__footer">
+      <span class="todo-count"> {{ activeCount$ | async }} items left </span>
+      <app-filter></app-filter>
+      <button class="todoapp__clear-completed" (click)="handleClearCompleted()">
+        Clear completed
+      </button>
+    </footer>
+  </div>
+
+  <app-message></app-message>
+</div>
